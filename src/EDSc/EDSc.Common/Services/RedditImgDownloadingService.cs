@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EDSc.Common.Model;
 using EDSc.Common.Utils;
-using Microsoft.Extensions.Configuration;
 
 namespace EDSc.Common.Services
 {

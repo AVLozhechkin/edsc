@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using EDSc.Common.MessageBroker;
 using Newtonsoft.Json;
@@ -16,16 +14,9 @@ namespace EDSc.Common.Services
         public async Task Execute(IJobExecutionContext context)
         {
             var dataMap = context.JobDetail.JobDataMap;
-
             this.rmqPublisher = (IRmqPublisher)dataMap["IRmqPublisher"];
             this.imgDownloadingService = (IImgDownloadingService)dataMap["IImgDownloadingService"];
-
-            Console.WriteLine("1");
             var imgLinks = await this.imgDownloadingService.GetImageLinks();
-            foreach (var item in imgLinks)
-            {
-                Console.WriteLine(item);
-            }
             Parallel.ForEach(imgLinks, ProcessImage);
 
 
