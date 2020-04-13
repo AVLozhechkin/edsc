@@ -19,7 +19,7 @@ namespace EDSc.Common.Services
         {
             this.dataRetriever = dataRetriever;
         }
-        public async Task<IEnumerable<string>> GetImageLinks()
+        public async Task<IEnumerable<string>> GetImageLinksFromSource()
         {
             var sourcePage = await this.dataRetriever.GetStringAsync(url);
             return imageLinkRegex.Matches(sourcePage).Select(m => m.Value).Distinct();

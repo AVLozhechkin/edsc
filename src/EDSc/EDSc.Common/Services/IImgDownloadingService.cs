@@ -6,7 +6,7 @@ namespace EDSc.Common.Services
 {
     public interface IImgDownloadingService
     {
-        Task<IEnumerable<string>> GetImageLinks();
+        Task<IEnumerable<string>> GetImageLinksFromSource();
         Task<Image> DownloadImage(string imgLink);
     }
 }

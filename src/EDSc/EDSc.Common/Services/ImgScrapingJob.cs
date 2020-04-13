@@ -8,15 +8,15 @@ namespace EDSc.Common.Services
 {
     public class ImgScrapingJob : IJob
     {
-        public IImgDownloadingService imgDownloadingService;
-        public IRmqPublisher rmqPublisher;
+        private IImgDownloadingService imgDownloadingService;
+        private IRmqPublisher rmqPublisher;
 
         public async Task Execute(IJobExecutionContext context)
         {
             var dataMap = context.JobDetail.JobDataMap;
             this.rmqPublisher = (IRmqPublisher)dataMap["IRmqPublisher"];
             this.imgDownloadingService = (IImgDownloadingService)dataMap["IImgDownloadingService"];
-            var imgLinks = await this.imgDownloadingService.GetImageLinks();
+            var imgLinks = await this.imgDownloadingService.GetImageLinksFromSource();
             Parallel.ForEach(imgLinks, ProcessImage);
 
 
