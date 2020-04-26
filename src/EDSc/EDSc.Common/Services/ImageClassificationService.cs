@@ -1,0 +1,50 @@
+﻿
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using EDSc.Common.MessageBroker;
+using EDSc.Common.Model;
+using Microsoft.Extensions.ML;
+using Newtonsoft.Json;
+using RabbitMQ.Client.Events;
+
+namespace EDSc.Common.Services
+{
+    public class ImageClassificationService
+    {
+        private IRmqConsumer Consumer { get; }
+        private IRmqPublisher Publisher { get; }
+        private PredictionEnginePool<InMemoryImageData, ImagePrediction> PredictionEnginePool { get; }
+
+        public ImageClassificationService(
+            IRmqConsumer consumer, 
+            IRmqPublisher publisher, 
+            PredictionEnginePool<InMemoryImageData, ImagePrediction> predictionEnginePool)
+        {
+            Consumer = consumer;
+            Publisher = publisher;
+            PredictionEnginePool = predictionEnginePool;
+        }
+
+        public void Start()
+        {
+            Consumer.StartListening(ClassifyImage);
+            Thread.Sleep(Timeout.Infinite);
+        }
+
+        private void ClassifyImage(object sender, BasicDeliverEventArgs args)
+        {
+            var image = JsonConvert.DeserializeObject<InMemoryImageData>(Encoding.UTF8.GetString(args.Body));
+            var imagePrediction = this.PredictionEnginePool.Predict(image);
+            var maxScore = imagePrediction.Score.Max();
+            if (maxScore > 0.99)
+            {
+                this.Publisher.Publish(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(image)));
+            }
+            Consumer.Ack(args);
+        } 
+    }
+}
