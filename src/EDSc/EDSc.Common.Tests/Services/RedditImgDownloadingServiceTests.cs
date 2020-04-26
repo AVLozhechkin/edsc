@@ -60,7 +60,7 @@ namespace EDSc.Common.Tests.Services
 
             // Assert
             Assert.IsTrue(downloadedImg.ImgUrl == link);
-            Assert.IsTrue(downloadedImg.ImgData == testImgBytes);
+            Assert.IsTrue(downloadedImg.Image == testImgBytes);
             Assert.IsTrue(downloadedImg.ImgId == imageId);
         }
     }

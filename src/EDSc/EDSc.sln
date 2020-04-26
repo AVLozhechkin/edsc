@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDSc.ImgScraper", "EDSc.Img
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDSc.Common.Tests", "EDSc.Common.Tests\EDSc.Common.Tests.csproj", "{C4BB345F-3F8C-4803-8581-58A2A4AAF057}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDSc.ImageClassifier", "EDSc.ImageClassifier\EDSc.ImageClassifier.csproj", "{EE3C9420-9300-487E-9064-93E2084ACB4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C4BB345F-3F8C-4803-8581-58A2A4AAF057}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4BB345F-3F8C-4803-8581-58A2A4AAF057}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4BB345F-3F8C-4803-8581-58A2A4AAF057}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE3C9420-9300-487E-9064-93E2084ACB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE3C9420-9300-487E-9064-93E2084ACB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE3C9420-9300-487E-9064-93E2084ACB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE3C9420-9300-487E-9064-93E2084ACB4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
