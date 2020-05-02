@@ -75,7 +75,7 @@ namespace EDSc.Common.MessageBroker
 
             if (this.exchangeAutoCreate)
             {
-                this.amqpChannel.ExchangeDeclare(this.exchange, "topic");
+                this.amqpChannel.ExchangeDeclare(this.exchange, "direct");
             }
         }
     }

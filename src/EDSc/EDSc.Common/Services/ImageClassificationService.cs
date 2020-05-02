@@ -17,12 +17,12 @@ namespace EDSc.Common.Services
     {
         private IRmqConsumer Consumer { get; }
         private IRmqPublisher Publisher { get; }
-        private PredictionEnginePool<InMemoryImageData, ImagePrediction> PredictionEnginePool { get; }
+        private PredictionEnginePool<InMemoryImage, ImagePrediction> PredictionEnginePool { get; }
 
         public ImageClassificationService(
             IRmqConsumer consumer, 
             IRmqPublisher publisher, 
-            PredictionEnginePool<InMemoryImageData, ImagePrediction> predictionEnginePool)
+            PredictionEnginePool<InMemoryImage, ImagePrediction> predictionEnginePool)
         {
             Consumer = consumer;
             Publisher = publisher;
@@ -37,7 +37,7 @@ namespace EDSc.Common.Services
 
         private void ClassifyImage(object sender, BasicDeliverEventArgs args)
         {
-            var image = JsonConvert.DeserializeObject<InMemoryImageData>(Encoding.UTF8.GetString(args.Body));
+            var image = JsonConvert.DeserializeObject<InMemoryImage>(Encoding.UTF8.GetString(args.Body));
             var imagePrediction = this.PredictionEnginePool.Predict(image);
             var maxScore = imagePrediction.Score.Max();
             if (maxScore > 0.99)

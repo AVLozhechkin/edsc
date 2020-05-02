@@ -24,12 +24,12 @@ namespace EDSc.Common.Services
             var sourcePage = await this.dataRetriever.GetStringAsync(url);
             return imageLinkRegex.Matches(sourcePage).Select(m => m.Value).Distinct();
         }
-        public async Task<InMemoryImageData> DownloadImage(string imgLink)
+        public async Task<InMemoryImage> DownloadImage(string imgLink)
         {
-            var img = new InMemoryImageData
+            var img = new InMemoryImage
             {
-                ImgId = this.ExtractImgId(imgLink),
-                ImgUrl = imgLink,
+                Id = this.ExtractImgId(imgLink),
+                Url = imgLink,
                 Image = await this.dataRetriever.GetByteArrayAsync(imgLink),
                 DownloadingDate = DateTime.Now
             };

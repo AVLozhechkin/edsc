@@ -20,7 +20,6 @@ namespace EDSc.ImgScraper
 
             var configuration = builder.Build();
             var rmqPublisher = new RmqPublisherBuilder()
-                .WithExchangeAutoCreation()
                 .UsingConfigExchangeAndRoutingKey(configuration.GetSection("RmqPublisher"))
                 .UsingCustomHost("localhost")
                 .Build();

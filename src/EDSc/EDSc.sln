@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDSc.Common", "EDSc.Common\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDSc.ImgScraper", "EDSc.ImgScraper\EDSc.ImgScraper.csproj", "{FEF7C9DD-490B-4E8E-BCA2-6D4A5146E929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDSc.Common.Tests", "EDSc.Common.Tests\EDSc.Common.Tests.csproj", "{C4BB345F-3F8C-4803-8581-58A2A4AAF057}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDSc.Common.Tests", "EDSc.Common.Tests\EDSc.Common.Tests.csproj", "{C4BB345F-3F8C-4803-8581-58A2A4AAF057}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDSc.ImageClassifier", "EDSc.ImageClassifier\EDSc.ImageClassifier.csproj", "{EE3C9420-9300-487E-9064-93E2084ACB4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDSc.ImageClassifier", "EDSc.ImageClassifier\EDSc.ImageClassifier.csproj", "{EE3C9420-9300-487E-9064-93E2084ACB4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDSc.ImageSaver", "EDSc.ImageSaver\EDSc.ImageSaver.csproj", "{6383F957-05D4-4B08-88B8-EC355558C33D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EE3C9420-9300-487E-9064-93E2084ACB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE3C9420-9300-487E-9064-93E2084ACB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE3C9420-9300-487E-9064-93E2084ACB4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6383F957-05D4-4B08-88B8-EC355558C33D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6383F957-05D4-4B08-88B8-EC355558C33D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6383F957-05D4-4B08-88B8-EC355558C33D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6383F957-05D4-4B08-88B8-EC355558C33D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
