@@ -2,11 +2,11 @@
 
 namespace EDSc.Common.Model
 {
-    public class InMemoryImageData
+    public class InMemoryImage
     {
         public byte[] Image { get; set; }
-        public string ImgId { get; set; }
-        public string ImgUrl { get; set; }
+        public string Id { get; set; }
+        public string Url { get; set; }
         public DateTime DownloadingDate { get; set; }
     }
 }

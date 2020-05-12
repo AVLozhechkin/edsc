@@ -18,7 +18,6 @@ namespace EDSc.ImageClassifier
                 .AddJsonFile("appsettings.json");
             var configuration = builder.Build();
             var rmqPublisher = new RmqPublisherBuilder()
-                .WithExchangeAutoCreation()
                 .UsingConfigExchangeAndRoutingKey(configuration.GetSection("RmqPublisher"))
                 .UsingCustomHost("localhost")
                 .Build();
@@ -29,13 +28,13 @@ namespace EDSc.ImageClassifier
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(rmqPublisher)
                 .AddSingleton(rmqConsumer)
-                .AddPredictionEnginePool<InMemoryImageData, ImagePrediction>().FromFile("imageClassifier.zip")
+                .AddPredictionEnginePool<InMemoryImage, ImagePrediction>().FromFile("imageClassifier.zip")
                 .Services.BuildServiceProvider();
             
             var serv = new ImageClassificationService(
                 serviceProvider.GetService<IRmqConsumer>(),
                 serviceProvider.GetService<IRmqPublisher>(),
-                serviceProvider.GetService<PredictionEnginePool<InMemoryImageData, ImagePrediction>>());
+                serviceProvider.GetService<PredictionEnginePool<InMemoryImage, ImagePrediction>>());
 
             serv.Start();
         }
