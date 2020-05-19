@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+	<!-- Add your custom configuration sections and parameters here -->
+
+  <Section Name="Binding">
+    <Parameter Name="SenderExchange" Value="" />
+    <Parameter Name="SenderRoutingKeys" Value="" />
+  </Section>
+  <Section Name="ImgDownloadingService">
+    <Parameter Name="SubReddit" Value="" />
+  </Section>
+  <Section Name="QuartzManager">
+    <Parameter Name="CronInterval" Value="" />
+  </Section>
+</Settings>

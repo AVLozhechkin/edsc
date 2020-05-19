@@ -32,17 +32,20 @@ namespace EDSc.Common.Services
         public void Start()
         {
             Consumer.StartListening(ClassifyImage);
-            Thread.Sleep(Timeout.Infinite);
         }
 
         private void ClassifyImage(object sender, BasicDeliverEventArgs args)
         {
             var image = JsonConvert.DeserializeObject<InMemoryImage>(Encoding.UTF8.GetString(args.Body));
             var imagePrediction = this.PredictionEnginePool.Predict(image);
-            var maxScore = imagePrediction.Score.Max();
-            if (maxScore > 0.99)
+
+            foreach (var score in imagePrediction.Score)
             {
-                this.Publisher.Publish(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(image)));
+                if (score > 0.99)
+                {
+                    image.Label = imagePrediction.PredictedLabel;
+                    this.Publisher.Publish(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(image)));
+                }
             }
             Consumer.Ack(args);
         } 

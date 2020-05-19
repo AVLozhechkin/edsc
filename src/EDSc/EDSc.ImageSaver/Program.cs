@@ -4,9 +4,11 @@ using EDSc.Common.Services;
 using EDSc.Common.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.ServiceFabric.Services.Runtime;
 using MongoDB.Driver;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace EDSc.ImageSaver
 {
@@ -14,29 +16,22 @@ namespace EDSc.ImageSaver
     {
         static void Main(string[] args)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+            try
+            {
+                // The ServiceManifest.XML file defines one or more service type names.
+                // Registering a service maps a service type name to a .NET type.
+                // When Service Fabric creates an instance of this service type,
+                // an instance of the class is created in this host process.
+                ServiceRuntime.RegisterServiceAsync("ImageSaverManagedServiceType",
+                    context => new ImageSaverManagedService(context)).GetAwaiter().GetResult();
 
-            var configuration = builder.Build();
-
-            var consumerQueue = configuration.GetSection("RmqConsumer").GetValue<string>("ReceiverQueue");
-            var client = new MongoClient(configuration.GetConnectionString("ImageDb"));
-
-            var rmqConsumer = new RmqConsumerBuilder()
-                .UsingQueue(consumerQueue)
-                .UsingCustomHost("localhost")
-                .Build();
-
-            var serviceProvider = new ServiceCollection()
-                .AddSingleton(rmqConsumer)
-                .AddSingleton<IImgToDbWriter<InMemoryImage>>(e => new ImgToMongoWriter(configuration.GetSection("ImageSaver"), client))
-                .BuildServiceProvider();
-
-            var saver = new ImgSavingService(
-                serviceProvider.GetService<IImgToDbWriter<InMemoryImage>>(),
-                serviceProvider.GetService<IRmqConsumer>());
-            saver.Start();
+                // Prevents this host process from terminating so services keep running.
+                Thread.Sleep(Timeout.Infinite);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -12,6 +12,8 @@ namespace EDSc.Common.Model
         public ObjectId ObjectId { get; set; }
         public string Id { get; set; }
         public string Url { get; set; }
+        public string Label { get; set; }
+        public float Score { get; set; }
         public DateTime DownloadingDate { get; set; }
         public ObjectId ImgObjId { get; set; }
     }
