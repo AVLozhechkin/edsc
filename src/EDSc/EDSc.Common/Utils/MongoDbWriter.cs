@@ -30,6 +30,8 @@ namespace EDSc.Common.Utils
             {
                 Id = img.Id,
                 Url = img.Url,
+                Score = img.Score,
+                Label = img.Label,
                 DownloadingDate = img.DownloadingDate,
                 ImgObjId = UploadImg(img.Id, img.Image)
             };

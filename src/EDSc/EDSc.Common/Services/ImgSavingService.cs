@@ -23,7 +23,6 @@ namespace EDSc.Common.Services
         public void Start()
         {
             Consumer.StartListening(ReceiveAndSaveImage);
-            Thread.Sleep(Timeout.Infinite);
         }
 
         private void ReceiveAndSaveImage(object sender, BasicDeliverEventArgs e)

@@ -9,12 +9,12 @@ namespace EDSc.Common.Services
     public class QuartzTaskManager<T> where T : IJob
     {
         private readonly IDictionary<string, object> dataForJob;
-        private readonly TimeSpan interval;
+        private readonly string cronInterval;
         private IScheduler scheduler;
-        public QuartzTaskManager(IDictionary<string, object> dataForJob, TimeSpan interval)
+        public QuartzTaskManager(IDictionary<string, object> dataForJob, string cronInterval)
         {
             this.dataForJob = dataForJob;
-            this.interval = interval;
+            this.cronInterval = cronInterval;
         }
         public async Task Start()
         {
@@ -37,12 +37,9 @@ namespace EDSc.Common.Services
                 }
 
                 ITrigger trigger = TriggerBuilder.Create()
-                    .WithIdentity("trigger1")
+                    .WithIdentity("trigger1", "group1")
+                    .WithCronSchedule(this.cronInterval)
                     .ForJob("imgDLJob", "group1")
-                    .StartNow()
-                    .WithSimpleSchedule(x => x
-                        .WithInterval(this.interval)
-                        .RepeatForever())
                     .Build();
 
                 await scheduler.ScheduleJob(jobDetail, trigger);

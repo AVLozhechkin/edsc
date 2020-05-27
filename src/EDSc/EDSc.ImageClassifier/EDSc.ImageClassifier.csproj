@@ -1,32 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
-      <PackageReference Include="Microsoft.ML" Version="1.5.0-preview2" />
-      <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.5.0-preview2" />
-      <PackageReference Include="Microsoft.ML.Vision" Version="1.5.0-preview2" />
-      <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.1.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
+    <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.Configuration" Version="4.1.409" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="4.1.409" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\EDSc.Common\EDSc.Common.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EDSc.Common\EDSc.Common.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <None Update="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="imageClassifier.zip">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+  <ItemGroup>
+    <None Update="imageClassifier.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ServiceFabric\ApplicationManifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ServiceFabric\ServiceManifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ServiceFabric\Settings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

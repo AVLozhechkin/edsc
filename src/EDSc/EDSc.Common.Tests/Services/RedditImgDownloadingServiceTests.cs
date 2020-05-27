@@ -59,9 +59,9 @@ namespace EDSc.Common.Tests.Services
             var downloadedImg = sut.DownloadImage(link).Result;
 
             // Assert
-            Assert.IsTrue(downloadedImg.ImgUrl == link);
+            Assert.IsTrue(downloadedImg.Url == link);
             Assert.IsTrue(downloadedImg.Image == testImgBytes);
-            Assert.IsTrue(downloadedImg.ImgId == imageId);
+            Assert.IsTrue(downloadedImg.Id == imageId);
         }
     }
 }
