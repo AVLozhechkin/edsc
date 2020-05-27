@@ -44,6 +44,7 @@ namespace EDSc.Common.Services
                 if (score > 0.99)
                 {
                     image.Label = imagePrediction.PredictedLabel;
+                    image.Score = score;
                     this.Publisher.Publish(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(image)));
                 }
             }
