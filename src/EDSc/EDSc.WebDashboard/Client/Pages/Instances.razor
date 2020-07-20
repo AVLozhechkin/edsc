@@ -1,0 +1,72 @@
+﻿@page "/instances"
+@using EDSc.Common.DTO
+@inject HttpClient HttpClient
+
+<div class="p-2">
+    <h3>Instances</h3>
+
+    <button class="btn btn-dark" @onclick="@UpdateInstancesList">Update Instance List</button>
+</div>
+
+
+<table class="table table-bordered table-hover w-75">
+    <thead class="thead-dark">
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Status</th>
+    </thead>
+        <tbody>
+            @foreach (var instance in instances)
+            {
+                var instanceLink = "instances/" + instance.Id;
+                var typeLink = "types/" + instance.TypeId;
+                <tr>
+                        <th scope="row">
+                                @instance.Id
+
+                        </th>
+                        <td>
+                            <NavLink href=@instanceLink>
+                                @instance.Name
+                            </NavLink>
+                        </td>
+                        <td>
+                            <NavLink href=@typeLink>
+                                @instance.Type
+                            </NavLink>
+                        </td>
+                        <td>@instance.Status</td>
+                </tr>
+            }
+        </tbody>
+</table>
+
+@code {
+    private List<InstanceDTO> instances;
+
+    private async Task GetInstances()
+    {
+        instances = await HttpClient.GetFromJsonAsync<List<InstanceDTO>>("/instances/list");
+    }
+    private void FakeInstances()
+    {
+        Random rand = new Random();
+        instances = new List<InstanceDTO>();
+        instances.Add(new InstanceDTO { Name = rand.Next().ToString(), Type = rand.Next().ToString(), Status = rand.Next().ToString() });
+        instances.Add(new InstanceDTO { Name = rand.Next().ToString(), Type = rand.Next().ToString(), Status = rand.Next().ToString() });
+        instances.Add(new InstanceDTO { Name = rand.Next().ToString(), Type = rand.Next().ToString(), Status = rand.Next().ToString() });
+        instances.Add(new InstanceDTO { Name = rand.Next().ToString(), Type = rand.Next().ToString(), Status = rand.Next().ToString() });
+        instances.Add(new InstanceDTO { Name = rand.Next().ToString(), Type = rand.Next().ToString(), Status = rand.Next().ToString() });
+        instances.Add(new InstanceDTO { Name = rand.Next().ToString(), Type = rand.Next().ToString(), Status = rand.Next().ToString() });
+    }
+    private void UpdateInstancesList()
+    {
+        FakeInstances();
+        StateHasChanged();
+    }
+    protected override void OnInitialized()
+    {
+        FakeInstances();
+    }
+}

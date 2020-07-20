@@ -1,0 +1,21 @@
+﻿@page "/instances/{InstanceId:int}"
+
+<h3>InstanceDescription</h3>
+
+@InstanceId
+
+@code {
+    [Parameter]
+    private int InstanceId { get; set; }
+
+    private Instance
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetInstanceDescriptionAsync();
+    }
+    private async Task GetInstanceDescriptionAsync()
+    {
+        
+    }
+}
