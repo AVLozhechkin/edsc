@@ -1,9 +1,9 @@
-﻿using Microsoft.ServiceFabric.Services.Runtime;
-using System;
-using System.Threading;
-
-namespace EDSc.ImageClassifier
+﻿namespace EDSc.ImageClassifier
 {
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using System;
+    using System.Threading;
+    
     class Program
     {
         static void Main(string[] args)

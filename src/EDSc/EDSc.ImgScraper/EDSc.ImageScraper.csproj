@@ -20,9 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="ServiceFabric\ApplicationManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
