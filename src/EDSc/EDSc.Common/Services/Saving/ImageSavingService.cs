@@ -1,4 +1,5 @@
-﻿using EDSc.Common.Utils.MessageBroker;
+﻿using EDSc.Common.Services.Saving.Utils;
+using EDSc.Common.Utils.MessageBroker;
 
 namespace EDSc.Common.Services.Saving
 {
@@ -8,12 +9,12 @@ namespace EDSc.Common.Services.Saving
     using Newtonsoft.Json;
     using RabbitMQ.Client.Events;
     
-    public class ImgSavingService
+    public class ImageSavingService
     {
         private IRmqConsumer Consumer { get; }
-        private IImgToDbWriter<ImageDto> DbWriter { get; }
+        private IImageToDbWriter<ImageDto> DbWriter { get; }
 
-        public ImgSavingService(IImgToDbWriter<ImageDto> dbWriter, IRmqConsumer consumer)
+        public ImageSavingService(IImageToDbWriter<ImageDto> dbWriter, IRmqConsumer consumer)
         {
             this.DbWriter = dbWriter;
             this.Consumer = consumer;

@@ -18,7 +18,7 @@
         private readonly Regex imageLinkRegex = 
             new Regex(@"https:\/\/((i\.imgur\.com\/\S+\.jpg)|(i\.redd\.it\/\S+\.jpg))", 
                 RegexOptions.Compiled);
-        private readonly Regex imgIdRegex = new Regex(@"\S+\/(\S+)\.jpg", RegexOptions.Compiled);
+        private readonly Regex imageIdRegex = new Regex(@"\S+\/(\S+)\.jpg", RegexOptions.Compiled);
 
         public RedditImageDownloadingService(IConfigurationSection section, IDataRetriever dataRetriever)
         {
@@ -34,7 +34,7 @@
         {
             var img = new ImageDto
             {
-                Id = this.ExtractImgId(imgLink),
+                Id = this.ExtractImageId(imgLink),
                 Url = imgLink,
                 Image = await this.dataRetriever.GetByteArrayAsync(imgLink),
                 DownloadingDate = DateTime.Now
@@ -42,9 +42,9 @@
             return img;
         }
 
-        private string ExtractImgId(string address)
+        private string ExtractImageId(string address)
         {
-            return this.imgIdRegex.Match(address).Groups[1].Value;
+            return this.imageIdRegex.Match(address).Groups[1].Value;
         }
     }
 }

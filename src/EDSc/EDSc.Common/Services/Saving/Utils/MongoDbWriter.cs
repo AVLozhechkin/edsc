@@ -1,23 +1,19 @@
-﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using EDSc.Common.Dto;
-using EDSc.Common.Services.Saving.Model;
-using Tensorflow.Keras;
-
-namespace EDSc.Common.Utils
+﻿namespace EDSc.Common.Services.Saving.Utils
 {
-    public class ImgToMongoWriter : IImgToDbWriter<ImageDto>, IDisposable
+    using System;
+    using EDSc.Common.Dto;
+    using EDSc.Common.Services.Saving.Model;
+    using Microsoft.Extensions.Configuration;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+    using MongoDB.Driver.GridFS;
+    
+    public class ImageToMongoWriter : IImageToDbWriter<ImageDto>, IDisposable
     {
         private MongoClient Client { get; set; }
         private string DbName { get; set; }
         private string CollectionName { get; set; }
-        public ImgToMongoWriter(IConfigurationSection configurationSection, MongoClient client)
+        public ImageToMongoWriter(IConfigurationSection configurationSection, MongoClient client)
         {
             this.Client = client;
             this.DbName = configurationSection.GetValue<string>("Database");
@@ -34,14 +30,14 @@ namespace EDSc.Common.Utils
                 Score = img.Score,
                 Label = img.Label,
                 DownloadingDate = img.DownloadingDate,
-                ImgObjId = UploadImg(img.Id, img.Image)
+                ImageObjId = UploadImage(img.Id, img.Image)
             };
 
             collection.InsertOne(mongoImg);
             
             return mongoImg.ObjectId.ToString();
         }
-        private ObjectId UploadImg(string name, byte[] img)
+        private ObjectId UploadImage(string name, byte[] img)
         {
             var db = this.Client.GetDatabase(this.DbName);
             IGridFSBucket gridFS = new GridFSBucket(db);

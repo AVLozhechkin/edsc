@@ -8,7 +8,7 @@
   <Section Name="ConnectionStrings">
     <Parameter Name="Mongo" Value="" />
   </Section>
-  <Section Name="Db">
+  <Section Name="ImageToDbWriter">
     <Parameter Name="Database" Value="" />
     <Parameter Name="Collection" Value="" />
   </Section>

@@ -6,7 +6,7 @@
 	<Parameters>
 		<Parameter Name="Binding_SenderExchange" DefaultValue=""/>
     <Parameter Name="Binding_SenderRoutingKeys" DefaultValue=""/>
-    <Parameter Name="ImgDownloadingService_SubReddit" DefaultValue=""/>
+    <Parameter Name="ImageDownloadingService_SubReddit" DefaultValue=""/>
     <Parameter Name="QuartzManager_CronInterval" DefaultValue=""/>
 		
 	</Parameters>
@@ -22,8 +22,8 @@
 						<Parameter Name="SenderExchange" Value="[Binding_SenderExchange]" />
             <Parameter Name="SenderRoutingKeys" Value="[Binding_SenderRoutingKeys]" />
 					</Section>
-          <Section Name="ImgDownloadingService">
-            <Parameter Name="SubReddit" Value="[ImgDownloadingService_SubReddit]" />
+          <Section Name="ImageDownloadingService">
+            <Parameter Name="SubReddit" Value="[ImageDownloadingService_SubReddit]" />
           </Section>
           <Section Name="QuartzManager">
             <Parameter Name="CronInterval" Value="[QuartzManager_CronInterval]" />

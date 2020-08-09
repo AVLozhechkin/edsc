@@ -45,14 +45,14 @@
                     .AddSingleton<IJob, ImageScrapingJob>()
                     .AddSingleton<IImageDownloadingService, RedditImageDownloadingService>(x =>
                         new RedditImageDownloadingService(
-                            configuration.GetSection("Config").GetSection("ImgDownloadingService"),
+                            configuration.GetSection("Config").GetSection("ImageDownloadingService"),
                             x.GetService<IDataRetriever>()))
                     .AddSingleton(
                         x => new QuartzTaskManager<ImageScrapingJob>(
                             new Dictionary<string, object>
                             {
                             {"IRmqPublisher", x.GetService<IRmqPublisher>() },
-                            {"IImgDownloadingService", x.GetService<IImageDownloadingService>() }
+                            {"IImageDownloadingService", x.GetService<IImageDownloadingService>() }
                             }, cronInterval))
                     .BuildServiceProvider();
 

@@ -16,7 +16,7 @@ namespace EDSc.Common.Services.Scraping
         {
             var dataMap = context.JobDetail.JobDataMap;
             this.Publisher = (IRmqPublisher)dataMap["IRmqPublisher"];
-            this.ImageDownloadingService = (IImageDownloadingService)dataMap["IImgDownloadingService"];
+            this.ImageDownloadingService = (IImageDownloadingService)dataMap["IImageDownloadingService"];
             var imgLinks = await this.ImageDownloadingService.GetImageLinksFromSource();
             Parallel.ForEach(imgLinks, ProcessImage);
 

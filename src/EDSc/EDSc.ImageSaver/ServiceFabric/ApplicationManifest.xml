@@ -6,8 +6,8 @@
 	<Parameters>
 		<Parameter Name="Binding_ReceiverQueue" DefaultValue=""/>
     <Parameter Name="ConnectionStrings_Mongo" DefaultValue=""/>
-    <Parameter Name="Db_Database" DefaultValue=""/>
-    <Parameter Name="Db_Collection" DefaultValue=""/>
+    <Parameter Name="ImageToDbWriter_Database" DefaultValue=""/>
+    <Parameter Name="ImageToDbWriter_Collection" DefaultValue=""/>
 		
 	</Parameters>
 	<!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
@@ -21,13 +21,13 @@
 					<Section Name="Binding">
 						<Parameter Name="ReceiverQueue" Value="[Binding_ReceiverQueue]" />
 					</Section>
-          <Section Name="ConnectionStrings">
-            <Parameter Name="Mongo" Value="[ConnectionStrings_Mongo]" />
-          </Section>
-          <Section Name="Db">
-            <Parameter Name="Database" Value="[Db_Database]" />
-            <Parameter Name="Collection" Value="[Db_Collection]" />
-          </Section>
+					<Section Name="ConnectionStrings">
+						<Parameter Name="Mongo" Value="[ConnectionStrings_Mongo]" />
+					</Section>
+					<Section Name="ImageToDbWriter">
+						<Parameter Name="Database" Value="[ImageToDbWriter_Database]" />
+						<Parameter Name="Collection" Value="[ImageToDbWriter_Collection]" />
+					</Section>
 				</Settings>
 			</ConfigOverride>
 		</ConfigOverrides>

@@ -28,7 +28,7 @@
 
                 IJobDetail jobDetail = JobBuilder
                     .Create<ImageScrapingJob>()
-                    .WithIdentity("imgDLJob", "group1")
+                    .WithIdentity("imageDownloadJob", "group1")
                     .Build();
 
                 foreach (var item in dataForJob)
@@ -37,14 +37,14 @@
                 }
 
                 ITrigger trigger = TriggerBuilder.Create()
-                    .WithIdentity("trigger1", "group1")
+                    .WithIdentity("cronTrigger", "group1")
                     .WithCronSchedule(this.cronInterval)
-                    .ForJob("imgDLJob", "group1")
+                    .ForJob("imageDownloadJob", "group1")
                     .Build();
 
                 await scheduler.ScheduleJob(jobDetail, trigger);
 
-                if (scheduler.GetCurrentlyExecutingJobs().Result == null)
+                if (await scheduler.GetCurrentlyExecutingJobs() == null)
                 {
                     await this.ShutDownQuartzSchedulerAsync();
                 }
@@ -58,7 +58,7 @@
         {
             if (this.scheduler == null)
             {
-                throw new NullReferenceException("The sheduler doesn't exist");
+                throw new NullReferenceException("The scheduler doesn't exist");
             }
 
             await scheduler.Shutdown();

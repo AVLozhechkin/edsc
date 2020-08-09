@@ -13,6 +13,6 @@
         public string Label { get; set; }
         public float Score { get; set; }
         public DateTime DownloadingDate { get; set; }
-        public ObjectId ImgObjId { get; set; }
+        public ObjectId ImageObjId { get; set; }
     }
 }

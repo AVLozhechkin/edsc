@@ -1,4 +1,6 @@
-﻿namespace EDSc.ImageSaver
+﻿using EDSc.Common.Services.Saving.Utils;
+
+namespace EDSc.ImageSaver
 {
     using System.Fabric;
     using System.Threading;
@@ -43,13 +45,13 @@
 
                 var serviceProvider = new ServiceCollection()
                     .AddSingleton(rmqConsumer)
-                    .AddSingleton<IImgToDbWriter<ImageDto>>(e => 
-                        new ImgToMongoWriter(configuration.GetSection("Config")
-                            .GetSection("Db"), client))
+                    .AddSingleton<IImageToDbWriter<ImageDto>>(e => 
+                        new ImageToMongoWriter(configuration.GetSection("Config")
+                            .GetSection("ImageToDbWriter"), client))
                     .BuildServiceProvider();
 
-                var service = new ImgSavingService(
-                    serviceProvider.GetService<IImgToDbWriter<ImageDto>>(),
+                var service = new ImageSavingService(
+                    serviceProvider.GetService<IImageToDbWriter<ImageDto>>(),
                     serviceProvider.GetService<IRmqConsumer>());
                 service.Start();
             }, cancellationToken);
