@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using EDSc.Common.Dto;
-using EDSc.Common.Services.Scraping;
-using EDSc.Common.Utils.MessageBroker;
-using Newtonsoft.Json;
-using NSubstitute;
-using NUnit.Framework;
-using Quartz;
-
-namespace EDSc.Common.Tests.Services.Scraping
+﻿namespace EDSc.Common.Tests.Services.Scraping
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using EDSc.Common.Dto;
+    using EDSc.Common.Services.Scraping;
+    using EDSc.Common.Utils.MessageBroker;
+    using Newtonsoft.Json;
+    using NSubstitute;
+    using NUnit.Framework;
+    using Quartz;
+    
     [TestFixture]
     public class ImageScrapingJobTests
     {

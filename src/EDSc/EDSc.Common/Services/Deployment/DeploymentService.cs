@@ -1,7 +1,6 @@
-﻿using EDSc.Common.Utils.MessageBroker;
-
-namespace EDSc.Common.Services.Deployment
+﻿namespace EDSc.Common.Services.Deployment
 {
+    using EDSc.Common.Utils.MessageBroker;
     using EDSc.Common.Services.Deployment.Database;
     using EDSc.Common.Services.Deployment.Model;
     using System.Collections.Generic;
@@ -50,7 +49,7 @@ namespace EDSc.Common.Services.Deployment
                     .Single(s => 
                         s.CanExecute(deploymentDescription.DeploymentType))
                     .ProcessDeployment(serviceDescription).Wait();
-                this.RmqConsumer.Ack(new BasicDeliverEventArgs() { DeliveryTag = e.DeliveryTag });
+                this.RmqConsumer.Ack(e);
             }
         }
     }

@@ -1,12 +1,11 @@
-﻿using System;
-using EDSc.Common.Utils.MessageBroker;
-
-namespace EDSc.Common.Services.Scraping
+﻿namespace EDSc.Common.Services.Scraping
 {
     using System.Text;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Quartz;
+    using System;
+    using EDSc.Common.Utils.MessageBroker;
     
     public class ImageScrapingJob : IJob
     {

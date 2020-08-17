@@ -1,7 +1,6 @@
-﻿using EDSc.Common.Utils.MessageBroker;
-
-namespace EDSc.Common.Services.Classification
+﻿namespace EDSc.Common.Services.Classification
 {
+    using EDSc.Common.Utils.MessageBroker;
     using System.Text;
     using Dto;
     using EDSc.Common.Services.Classification.Model;

@@ -1,12 +1,10 @@
-﻿using System;
-using EDSc.Common.Services.Saving.Utils;
-using EDSc.Common.Utils.MessageBroker;
-
-namespace EDSc.Common.Services.Saving
+﻿namespace EDSc.Common.Services.Saving
 {
+    using System;
+    using EDSc.Common.Services.Saving.Utils;
+    using EDSc.Common.Utils.MessageBroker;
     using System.Text;
     using Dto;
-    using EDSc.Common.Utils;
     using Newtonsoft.Json;
     using RabbitMQ.Client.Events;
     

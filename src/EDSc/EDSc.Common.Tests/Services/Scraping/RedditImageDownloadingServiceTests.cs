@@ -1,15 +1,15 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using EDSc.Common.Services.Scraping;
-using EDSc.Common.Services.Scraping.Utils;
-using Microsoft.Extensions.Configuration;
-using NSubstitute;
-using NUnit.Framework;
-
 namespace EDSc.Common.Tests.Services.Scraping
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using EDSc.Common.Services.Scraping;
+    using EDSc.Common.Services.Scraping.Utils;
+    using Microsoft.Extensions.Configuration;
+    using NSubstitute;
+    using NUnit.Framework;
+    
     [TestFixture]
     public class RedditImageDownloadingServiceTests
     {

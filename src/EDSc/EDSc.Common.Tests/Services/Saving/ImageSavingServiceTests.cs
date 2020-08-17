@@ -1,19 +1,17 @@
-﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using EDSc.Common.Dto;
-using EDSc.Common.Services.Saving;
-using EDSc.Common.Services.Saving.Model;
-using EDSc.Common.Services.Saving.Utils;
-using EDSc.Common.Utils.MessageBroker;
-using Newtonsoft.Json;
-using NSubstitute;
-using NUnit.Framework;
-using RabbitMQ.Client.Events;
-
-namespace EDSc.Common.Tests.Services.Saving
+﻿namespace EDSc.Common.Tests.Services.Saving
 {
+    using System;
+    using System.Linq;
+    using System.Text;
+    using EDSc.Common.Dto;
+    using EDSc.Common.Services.Saving;
+    using EDSc.Common.Services.Saving.Utils;
+    using EDSc.Common.Utils.MessageBroker;
+    using Newtonsoft.Json;
+    using NSubstitute;
+    using NUnit.Framework;
+    using RabbitMQ.Client.Events;
+    
     [TestFixture]
     public class ImageSavingServiceTests
     {

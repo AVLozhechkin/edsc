@@ -1,9 +1,8 @@
-﻿using EDSc.Common.Services.Deployment.Model;
-
-namespace EDSc.Common.Services.Deployment
+﻿namespace EDSc.Common.Services.Deployment
 {
     using System.Threading.Tasks;
-
+    using EDSc.Common.Services.Deployment.Model;
+    
     public interface IDeploymentStrategy
     {
         bool CanExecute(string deploymentType);

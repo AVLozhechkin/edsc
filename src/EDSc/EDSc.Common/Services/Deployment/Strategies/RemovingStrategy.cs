@@ -1,7 +1,6 @@
-﻿using EDSc.Common.Services.Deployment.Util;
-
-namespace EDSc.Common.Services.Deployment.Strategies
+﻿namespace EDSc.Common.Services.Deployment.Strategies
 {
+    using EDSc.Common.Services.Deployment.Util;
     using System.Threading.Tasks;
     using EDSc.Common.Services.Deployment.Model;
     

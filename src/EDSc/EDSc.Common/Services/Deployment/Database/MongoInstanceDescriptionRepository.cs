@@ -1,7 +1,6 @@
-﻿using EDSc.Common.Services.Deployment.Model;
-
-namespace EDSc.Common.Services.Deployment.Database
+﻿namespace EDSc.Common.Services.Deployment.Database
 {
+    using EDSc.Common.Services.Deployment.Model;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
