@@ -1,25 +1,22 @@
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
-using EDSc.Common.Services;
 using EDSc.Common.Services.Scraping;
 using EDSc.Common.Services.Scraping.Utils;
-using EDSc.Common.Utils;
 using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NUnit.Framework;
 
-namespace EDSc.Common.Tests.Services
+namespace EDSc.Common.Tests.Services.Scraping
 {
-    [TestClass]
+    [TestFixture]
     public class RedditImageDownloadingServiceTests
     {
-        [TestMethod]
-        public void ShouldReturnLinksListWhenSourceIsCorrect()
+        [Test]
+        public void ShouldReturnEmptyListWhenNoLinksInSource()
         {
-            // arrange
+            // Arrange
             var dataRetriever = Substitute.For<IDataRetriever>();
             var url = "https://old.reddit.com/r/aww/";
             var subreddit = new Dictionary<string, string>
@@ -29,10 +26,38 @@ namespace EDSc.Common.Tests.Services
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(subreddit)
                 .Build();
+            dataRetriever.GetStringAsync(
+                Arg.Is(url)).Returns(string.Empty);
+            var sut = new RedditImageDownloadingService(
+                configuration.GetSection("ImageDownloadingService"), 
+                dataRetriever);
+            
+            // Act
+            var links = sut.GetImageLinksFromSource().Result;
+            
+            // Assert
+            Assert.IsFalse(links.Any());
+        }
+        [Test]
+        public void ShouldReturnLinksListWhenSourceIsCorrect()
+        {
+            // Arrange
+            var dataRetriever = Substitute.For<IDataRetriever>();
+            var subreddit = "aww";
+            var url = Path.Combine("https://old.reddit.com/r/", subreddit);
+            var configData = new Dictionary<string, string>
+            {
+                {"ImageDownloadingService:SubReddit", subreddit}
+            };
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(configData)
+                .Build();
             
             dataRetriever.GetStringAsync(
                 Arg.Is(url)).Returns(
-                    File.ReadAllText("Services/Source.html"));
+                File.ReadAllText(Path.Combine(TestContext.CurrentContext.TestDirectory,
+                    "Services\\Scraping\\Source.html")));
+
             var linksInSource = new List<string>
             {
                 "https://i.redd.it/v7nqb0sd0es41.jpg",
@@ -49,16 +74,19 @@ namespace EDSc.Common.Tests.Services
                 configuration.GetSection("ImageDownloadingService"), 
                 dataRetriever);
 
-            // act
+            // Act
             var links = sut.GetImageLinksFromSource().Result;
 
-            // assert
+            // Assert
             Assert.IsTrue(links.SequenceEqual(linksInSource));
         }
-        [TestMethod]
-        public void ShouldDownloadImageFromGivenUrl()
+        [Test]
+        public void ShouldDownloadImageFromUrl()
         {
             // Arrange
+            var emptyConfiguration = new ConfigurationBuilder()
+                .AddInMemoryCollection()
+                .Build();
             var link = "https://i.redd.it/v7nqb0sd0es41.jpg";
             var imageId = "v7nqb0sd0es41";
             var dataRetriever = Substitute.For<IDataRetriever>();
@@ -67,15 +95,18 @@ namespace EDSc.Common.Tests.Services
                 Arg.Is(link))
                 .Returns(testImgBytes);
 
-            //var sut = new RedditImageDownloadingService( dataRetriever);
+            var sut = new RedditImageDownloadingService(
+                emptyConfiguration.GetSection(string.Empty), 
+                dataRetriever);
 
             // Act
-            // downloadedImg = sut.DownloadImage(link).Result;
+            var downloadedImg = sut.DownloadImage(link).Result;
 
             // Assert
-            //Assert.IsTrue(downloadedImg.Url == link);
-            //Assert.IsTrue(downloadedImg.Image == testImgBytes);
-            //Assert.IsTrue(downloadedImg.Id == imageId);
+            Assert.IsTrue(downloadedImg.Url == link);
+            Assert.IsTrue(downloadedImg.Image == testImgBytes);
+            Assert.IsTrue(downloadedImg.Id == imageId);
+            Assert.IsNotNull(downloadedImg.DownloadingDate);
         }
     }
 }

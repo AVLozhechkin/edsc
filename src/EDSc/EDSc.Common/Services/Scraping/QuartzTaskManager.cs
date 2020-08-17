@@ -18,40 +18,33 @@
         }
         public async Task Start()
         {
-            try
+            ISchedulerFactory schedFact = new StdSchedulerFactory();
+
+            this.scheduler = await schedFact.GetScheduler();
+
+            await scheduler.Start();
+
+            IJobDetail jobDetail = JobBuilder
+                .Create<ImageScrapingJob>()
+                .WithIdentity("imageDownloadJob", "group1")
+                .Build();
+
+            foreach (var item in dataForJob)
             {
-                ISchedulerFactory schedFact = new StdSchedulerFactory();
-
-                this.scheduler = await schedFact.GetScheduler();
-
-                await scheduler.Start();
-
-                IJobDetail jobDetail = JobBuilder
-                    .Create<ImageScrapingJob>()
-                    .WithIdentity("imageDownloadJob", "group1")
-                    .Build();
-
-                foreach (var item in dataForJob)
-                {
-                    jobDetail.JobDataMap[item.Key] = item.Value;
-                }
-
-                ITrigger trigger = TriggerBuilder.Create()
-                    .WithIdentity("cronTrigger", "group1")
-                    .WithCronSchedule(this.cronInterval)
-                    .ForJob("imageDownloadJob", "group1")
-                    .Build();
-
-                await scheduler.ScheduleJob(jobDetail, trigger);
-
-                if (await scheduler.GetCurrentlyExecutingJobs() == null)
-                {
-                    await this.ShutDownQuartzSchedulerAsync();
-                }
+                jobDetail.JobDataMap[item.Key] = item.Value;
             }
-            catch
+
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("cronTrigger", "group1")
+                .WithCronSchedule(this.cronInterval)
+                .ForJob("imageDownloadJob", "group1")
+                .Build();
+
+            await scheduler.ScheduleJob(jobDetail, trigger);
+
+            if (await scheduler.GetCurrentlyExecutingJobs() == null)
             {
-                throw;
+                await this.ShutDownQuartzSchedulerAsync();
             }
         }
         private async Task ShutDownQuartzSchedulerAsync()

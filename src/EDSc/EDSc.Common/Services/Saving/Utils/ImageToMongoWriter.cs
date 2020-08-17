@@ -42,7 +42,6 @@
             var db = this.Client.GetDatabase(this.DbName);
             IGridFSBucket gridFS = new GridFSBucket(db);
             return gridFS.UploadFromBytes(name, img);
-
         }
 
         private bool disposedValue = false; 

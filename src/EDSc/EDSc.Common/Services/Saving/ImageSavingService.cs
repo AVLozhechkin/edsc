@@ -1,4 +1,5 @@
-﻿using EDSc.Common.Services.Saving.Utils;
+﻿using System;
+using EDSc.Common.Services.Saving.Utils;
 using EDSc.Common.Utils.MessageBroker;
 
 namespace EDSc.Common.Services.Saving
@@ -28,7 +29,12 @@ namespace EDSc.Common.Services.Saving
         {
             var image = JsonConvert.DeserializeObject<ImageDto>(Encoding.UTF8.GetString(e.Body));
 
-            var id = this.DbWriter.SaveToDb(image);
+            if (image is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            this.DbWriter.SaveToDb(image);
 
             this.Consumer.Ack(e);
         }

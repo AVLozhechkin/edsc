@@ -1,4 +1,5 @@
-﻿using EDSc.Common.Utils.MessageBroker;
+﻿using System;
+using EDSc.Common.Utils.MessageBroker;
 
 namespace EDSc.Common.Services.Scraping
 {
@@ -15,8 +16,19 @@ namespace EDSc.Common.Services.Scraping
         public async Task Execute(IJobExecutionContext context)
         {
             var dataMap = context.JobDetail.JobDataMap;
+            
             this.Publisher = (IRmqPublisher)dataMap["IRmqPublisher"];
+            if (this.Publisher is null)
+            {
+                throw new ArgumentNullException(nameof(this.Publisher));
+            }
+            
             this.ImageDownloadingService = (IImageDownloadingService)dataMap["IImageDownloadingService"];
+            if (this.ImageDownloadingService is null)
+            {
+                throw new ArgumentNullException(nameof(this.ImageDownloadingService));
+            }
+            
             var imgLinks = await this.ImageDownloadingService.GetImageLinksFromSource();
             Parallel.ForEach(imgLinks, ProcessImage);
 
