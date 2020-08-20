@@ -1,17 +1,9 @@
-﻿using EDSc.Common.MessageBroker;
-using EDSc.Common.Model;
-using EDSc.Common.Services;
-using EDSc.Common.Utils;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.ServiceFabric.Services.Runtime;
-using MongoDB.Driver;
-using System;
-using System.IO;
-using System.Threading;
-
-namespace EDSc.ImageSaver
+﻿namespace EDSc.ImageSaver
 {
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using System;
+    using System.Threading;
+    
     class Program
     {
         static void Main(string[] args)

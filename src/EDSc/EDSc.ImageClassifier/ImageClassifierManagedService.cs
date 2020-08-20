@@ -1,26 +1,24 @@
-﻿using EDSc.Common.MessageBroker;
-using EDSc.Common.Model;
-using EDSc.Common.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.ML;
-using Microsoft.ServiceFabric.AspNetCore.Configuration;
-using Microsoft.ServiceFabric.Services.Runtime;
-using MongoDB.Bson;
-using System.Fabric;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace EDSc.ImageClassifier
+﻿namespace EDSc.ImageClassifier
 {
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.ML;
+    using Microsoft.ServiceFabric.AspNetCore.Configuration;
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using MongoDB.Bson;
+    using System.Fabric;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Dto;
+    using EDSc.Common.Services.Classification;
+    using EDSc.Common.Services.Classification.Model;
+    using EDSc.Common.Utils.MessageBroker;
+    
     class ImageClassifierManagedService : StatelessService
     {
         public ImageClassifierManagedService(StatelessServiceContext context)
-          : base(context)
-        {
-
-        }
+          : base(context) { }
 
         protected override Task RunAsync(CancellationToken cancellationToken)
         {
@@ -34,9 +32,7 @@ namespace EDSc.ImageClassifier
                     .UsingConfigExchangeAndRoutingKey(configuration.GetSection("Config:Binding"))
                     .UsingCustomHost("localhost")
                     .Build();
-                configuration.ToJson();
                 var queue = configuration.GetSection("Config").GetValue<string>("Binding:ReceiverQueue");
-                File.WriteAllText("D:\\log.txt", queue);
                 var rmqConsumer = new RmqConsumerBuilder()
                     .UsingQueue(queue)
                     .UsingCustomHost("localhost")
@@ -44,17 +40,18 @@ namespace EDSc.ImageClassifier
                 var serviceProvider = new ServiceCollection()
                     .AddSingleton(rmqPublisher)
                     .AddSingleton(rmqConsumer)
-                    .AddPredictionEnginePool<InMemoryImage, ImagePrediction>().FromFile(
+                    .AddPredictionEnginePool<ImageDto, ImagePrediction>().FromFile(
                         Path.Combine(
-                            FabricRuntime.GetActivationContext().GetCodePackageObject("Code").Path, "imageClassifier.zip"))
+                            FabricRuntime.GetActivationContext().GetCodePackageObject("Code").Path, 
+                            "imageClassifier.zip"))
                     .Services.BuildServiceProvider();
 
-                var serv = new ImageClassificationService(
+                var service = new ImageClassificationService(
                     serviceProvider.GetService<IRmqConsumer>(),
                     serviceProvider.GetService<IRmqPublisher>(),
-                    serviceProvider.GetService<PredictionEnginePool<InMemoryImage, ImagePrediction>>());
+                    serviceProvider.GetService<PredictionEnginePool<ImageDto, ImagePrediction>>());
 
-                serv.Start();
+                service.Start();
             });
         }
     }

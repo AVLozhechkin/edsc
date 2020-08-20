@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using Microsoft.ServiceFabric.Services.Runtime;
-
-namespace EDSc.ImgScraper
+﻿namespace EDSc.ImageScraper
 {
+    using System;
+    using System.Threading;
+    using Microsoft.ServiceFabric.Services.Runtime;
+    
     class Program
     {
         static void Main(string[] args)

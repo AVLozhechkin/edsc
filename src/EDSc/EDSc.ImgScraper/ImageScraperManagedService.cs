@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Fabric;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using EDSc.Common.MessageBroker;
-using EDSc.Common.Services;
-using EDSc.Common.Utils;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.ServiceFabric.AspNetCore.Configuration;
-using Microsoft.ServiceFabric.Services.Runtime;
-using Quartz;
-
-namespace EDSc.ImgScraper
+﻿namespace EDSc.ImageScraper
 {
+    using System.Collections.Generic;
+    using System.Fabric;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using EDSc.Common.Services.Scraping;
+    using EDSc.Common.Services.Scraping.Utils;
+    using EDSc.Common.Utils.MessageBroker;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.ServiceFabric.AspNetCore.Configuration;
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using Quartz;
+    
     class ImageScraperManagedService : StatelessService
     {
         public ImageScraperManagedService(StatelessServiceContext context) : base(context)
@@ -31,34 +30,37 @@ namespace EDSc.ImgScraper
                 var configuration = builder.Build();
 
                 var rmqPublisher = new RmqPublisherBuilder()
-                    .UsingConfigExchangeAndRoutingKey(configuration.GetSection("Config").GetSection("Binding"))
+                    .UsingConfigExchangeAndRoutingKey(configuration.GetSection("Config")
+                        .GetSection("Binding"))
                     .UsingCustomHost("localhost")
                     .Build();
 
-                var cronInterval = configuration.GetSection("Config").GetSection("QuartzManager").GetSection("CronInterval").Value;
+                var cronInterval = configuration.GetSection("Config")
+                    .GetSection("QuartzManager")
+                    .GetSection("CronInterval").Value;
 
                 var serviceProvider = new ServiceCollection()
                     .AddSingleton(rmqPublisher)
                     .AddSingleton<IDataRetriever, HttpDataRetriever>()
-                    .AddSingleton<IJob, ImgScrapingJob>()
-                    .AddSingleton<IImgDownloadingService, RedditImgDownloadingService>(x =>
-                        new RedditImgDownloadingService(
-                            configuration.GetSection("Config").GetSection("ImgDownloadingService"),
+                    .AddSingleton<IJob, ImageScrapingJob>()
+                    .AddSingleton<IImageDownloadingService, RedditImageDownloadingService>(x =>
+                        new RedditImageDownloadingService(
+                            configuration.GetSection("Config").GetSection("ImageDownloadingService"),
                             x.GetService<IDataRetriever>()))
                     .AddSingleton(
-                        x => new QuartzTaskManager<ImgScrapingJob>(
+                        x => new QuartzTaskManager<ImageScrapingJob>(
                             new Dictionary<string, object>
                             {
                             {"IRmqPublisher", x.GetService<IRmqPublisher>() },
-                            {"IImgDownloadingService", x.GetService<IImgDownloadingService>() }
+                            {"IImageDownloadingService", x.GetService<IImageDownloadingService>() }
                             }, cronInterval))
                     .BuildServiceProvider();
 
-                var taskManager = serviceProvider.GetService<QuartzTaskManager<ImgScrapingJob>>();
+                var taskManager = serviceProvider.GetService<QuartzTaskManager<ImageScrapingJob>>();
 
 
                 taskManager.Start();
-            });
+            }, cancellationToken);
         }
     }
 }

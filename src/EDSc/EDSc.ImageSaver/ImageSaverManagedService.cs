@@ -1,18 +1,20 @@
-﻿using System.Fabric;
-using System.Threading;
-using System.Threading.Tasks;
-using EDSc.Common.MessageBroker;
-using EDSc.Common.Model;
-using EDSc.Common.Services;
-using EDSc.Common.Utils;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.ServiceFabric.AspNetCore.Configuration;
-using Microsoft.ServiceFabric.Services.Runtime;
-using MongoDB.Driver;
+﻿using EDSc.Common.Services.Saving.Utils;
 
 namespace EDSc.ImageSaver
 {
+    using System.Fabric;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Dto;
+    using EDSc.Common.Services.Saving;
+    using EDSc.Common.Utils;
+    using EDSc.Common.Utils.MessageBroker;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.ServiceFabric.AspNetCore.Configuration;
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using MongoDB.Driver;
+    
     class ImageSaverManagedService : StatelessService
     {
         public ImageSaverManagedService(StatelessServiceContext context) : base(context)
@@ -29,8 +31,10 @@ namespace EDSc.ImageSaver
 
                 var configuration = builder.Build();
 
-                var queue = configuration.GetSection("Config").GetValue<string>("Binding:ReceiverQueue");
-                var connString = configuration.GetSection("Config").GetValue<string>("ConnectionStrings:Mongo");
+                var queue = configuration.GetSection("Config")
+                    .GetValue<string>("Binding:ReceiverQueue");
+                var connString = configuration.GetSection("Config")
+                    .GetValue<string>("ConnectionStrings:Mongo");
 
                 var client = new MongoClient(connString);
 
@@ -41,14 +45,16 @@ namespace EDSc.ImageSaver
 
                 var serviceProvider = new ServiceCollection()
                     .AddSingleton(rmqConsumer)
-                    .AddSingleton<IImgToDbWriter<InMemoryImage>>(e => new ImgToMongoWriter(configuration.GetSection("Config").GetSection("Db"), client))
+                    .AddSingleton<IImageToDbWriter<ImageDto>>(e => 
+                        new ImageToMongoWriter(configuration.GetSection("Config")
+                            .GetSection("ImageToDbWriter"), client))
                     .BuildServiceProvider();
 
-                var saver = new ImgSavingService(
-                    serviceProvider.GetService<IImgToDbWriter<InMemoryImage>>(),
+                var service = new ImageSavingService(
+                    serviceProvider.GetService<IImageToDbWriter<ImageDto>>(),
                     serviceProvider.GetService<IRmqConsumer>());
-                saver.Start();
-            });
+                service.Start();
+            }, cancellationToken);
         }
     }
 }
